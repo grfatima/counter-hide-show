@@ -1,16 +1,35 @@
 const icon = document.querySelector("#icon");
 const password = document.querySelector("#password");
 
-icon.innerText = "🙈";
+const isPasswordVisible = localStorage.getItem("passwordVisible");
+const savedPassword = localStorage.getItem("savedPassword");
+
+if (savedPassword) {
+  password.value = savedPassword;
+}
+
+if (isPasswordVisible === "true") {
+  password.type = "text";
+  icon.innerText = "🐵";
+} else {
+  password.type = "password";
+  icon.innerText = "🙈";
+}
 
 icon.addEventListener("click", () => {
   if (password.type === "password") {
     password.type = "text";
     icon.innerText = "🐵";
+    localStorage.setItem("passwordVisible", "true");
   } else {
     password.type = "password";
     icon.innerText = "🙈";
+    localStorage.setItem("passwordVisible", "false");
   }
+});
+
+password.addEventListener("input", () => {
+  localStorage.setItem("savedPassword", password.value);
 });
 
 const btn = document.querySelector("#btn");
